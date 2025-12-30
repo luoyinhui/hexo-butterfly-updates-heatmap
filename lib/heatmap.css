@@ -2,11 +2,17 @@
 .updates-heatmap {
   margin-bottom: 20px;
   padding: 20px;
-  background: var(--card-bg);
+  background: var(--card-bg, #fff);
   border-radius: 8px;
-  box-shadow: var(--card-box-shadow);
+  box-shadow: var(--card-box-shadow, 0 3px 8px 6px rgba(7, 17, 27, 0.05));
   width: 100%;
   overflow: hidden;
+  color: var(--font-color, #333);
+}
+
+[data-theme='dark'] .updates-heatmap {
+  background: var(--card-bg, #1d1d1f);
+  color: var(--font-color, #F7F7FA);
 }
 
 .heatmap-header {
@@ -31,7 +37,7 @@
   display: flex;
   align-items: center;
   font-size: 12px;
-  color: var(--font-color);
+  color: var(--font-color, #888);
   gap: 4px;
 }
 
@@ -49,7 +55,7 @@
 }
 
 .legend-label {
-  color: #888;
+  color: var(--font-color, #888);
   margin: 0 4px;
 }
 
@@ -68,7 +74,7 @@
 
 .heatmap-month-label {
   font-size: 12px;
-  color: var(--font-color);
+  color: var(--font-color, #888);
   grid-column: span 1;
   overflow: visible;
   white-space: nowrap;
@@ -137,7 +143,7 @@
   text-align: center;
   cursor: pointer;
   padding: 10px 0;
-  background: #fff;
+  background: var(--card-bg, #fff);
   color: #49b1f5;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -151,14 +157,24 @@
   font-size: 1.1em;
 }
 
+[data-theme='dark'] .updates-show-more-btn {
+  background: var(--card-bg, #1d1d1f);
+  color: #49b1f5;
+  border: 1px solid #3d3d3d;
+}
+
 .updates-show-more-btn:hover {
   background: #f0f0f0;
   color: #FF7242;
+}
+
+[data-theme='dark'] .updates-show-more-btn:hover {
+  background: #3d3d3d;
 }
 
 .year-label {
   text-align: center;
   margin-top: 10px;
   font-size: 0.9em;
-  color: #999;
+  color: var(--font-color, #999);
 }
