@@ -32,9 +32,9 @@ npm install ./hexo-butterfly-updates-heatmap
 updates_settings:
   enable: true
   title: '创作指数'       # 热力图左上角显示的标题
-  color_scheme: 'green'   # 主题色可选: green, blue, pink, red, orange, purple
+  color_scheme: 'green'   # 主题色可选: green, blue, red, orange, purple
   limit_months: 3         # (可选) 用于配合您自己的时间轴逻辑，本插件主要使用前两项
-  empty_history_msg: '博客还没有满1月呢～～' # 当没有跨年历史数据时显示的提示语
+  empty_history_msg: '博客还没有满1岁呢～～' # 当没有跨年历史数据时显示的提示语
 ```
 
 ## 使用方法
@@ -54,17 +54,6 @@ updates_settings:
 ```pug
 != butterfly_heatmap()
 ```
-
-## 颜色主题预览
-
-您可以通过修改配置文件的 `color_scheme` 字段来切换颜色：
-
-- `green` (默认，GitHub 风格)
-- `blue` (蓝色系)
-- `pink` (粉色系)
-- `red` (红色系)
-- `orange` (橙色系)
-- `purple` (紫色系)
 
 ## 开源协议
 

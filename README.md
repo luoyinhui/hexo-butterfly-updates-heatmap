@@ -34,7 +34,7 @@ Add the following configuration to your `_config.butterfly.yml` (or `_config.yml
 updates_settings:
   enable: true
   title: 'Contribution Activity'  # Title shown above the heatmap
-  color_scheme: 'green'           # Options: green, blue, pink, red, orange, purple
+  color_scheme: 'green'           # Options: green, blue, red, orange, purple
   limit_months: 3                 # (Optional) Logic for your own timeline if needed
   empty_history_msg: 'No history yet!' # Message shown when no past years exist
 ```
@@ -56,17 +56,6 @@ If you are customizing the theme layout (e.g., creating a custom `updates.pug`),
 ```pug
 != butterfly_heatmap()
 ```
-
-## Color Schemes
-
-You can switch the `color_scheme` in config:
-
-- `green` (Default, GitHub style)
-- `blue`
-- `pink`
-- `red`
-- `orange`
-- `purple`
 
 ## License
 
