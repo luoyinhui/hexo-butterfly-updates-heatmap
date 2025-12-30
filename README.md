@@ -4,7 +4,7 @@ English | [中文文档](./README_CN.md)
 
 A heatmap plugin originally designed for the [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) theme, but also compatible with **Hexo Fluid** and other Hexo themes. It visualizes your post updates activity (based on `updated` date, fallback to `date`) in a heatmap style inspired by **Yuque (语雀)**, with support for historical archives.
 
-![preview](https://github.com/user-attachments/assets/placeholder)
+![preview](https://luoyinhui.github.io/updates/)
 
 ## Features
 
@@ -87,8 +87,6 @@ This plugin also works out-of-the-box with [Hexo Fluid](https://github.com/fluid
     *   **Option A (Easy)**: Create a new page (e.g., `source/updates/index.md`) and add `{% butterfly_heatmap %}` in the content.
     *   **Option B (Custom Layout)**: Inject it into a custom layout file using `<%- butterfly_heatmap() %>`.
 4.  **Styles**: The plugin includes fallback styles for themes that don't use Butterfly's CSS variables. It will automatically adapt to light/dark modes using standard CSS practices.
-
-## Color Schemes
 
 ## License
 

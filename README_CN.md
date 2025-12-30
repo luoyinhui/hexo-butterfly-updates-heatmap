@@ -4,7 +4,7 @@
 
 这是一个专为 [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) 主题设计，但也兼容 **Hexo Fluid** 及其他 Hexo 主题的热力图插件。它参考 **语雀 (Yuque)** 的热力图风格展示您的文章更新频率（优先使用 `updated` 更新时间，无更新时间则回退使用 `date` 创建时间），并支持查看历史年份的存档。
 
-![preview](https://github.com/user-attachments/assets/placeholder)
+![preview](https://luoyinhui.github.io/updates/)
 
 ## 功能特点
 
@@ -85,8 +85,6 @@ updates_settings:
     *   **方案 A (简单)**：新建一个页面（如 `source/updates/index.md`），并在正文中写入 `{% butterfly_heatmap %}`。
     *   **方案 B (自定义布局)**：在自定义布局文件中使用 `<%- butterfly_heatmap() %>` 进行注入。
 4.  **样式**：插件包含回退样式，对于不使用 Butterfly CSS 变量的主题（如 Fluid），它会自动使用标准的 CSS 样式并适配日间/夜间模式。
-
-## 颜色主题预览
 
 ## 开源协议
 
