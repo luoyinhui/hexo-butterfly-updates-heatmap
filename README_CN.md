@@ -62,17 +62,29 @@ updates_settings:
 <%- butterfly_heatmap() %>
 ```
 
-## Hexo Fluid 用户指南
+## 用户指南
 
-本插件开箱即支持 [Hexo Fluid](https://github.com/fluid-dev/hexo-theme-fluid) 主题。
+### Butterfly 主题用户（原生支持）
+
+本插件专为 [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) 主题原生设计。
+
+1.  **安装**：参考上文安装步骤。
+2.  **配置**：将 `updates_settings` 配置块添加到您的 `_config.butterfly.yml`（或站点 `_config.yml`）中。
+3.  **使用**：
+    *   **Markdown**：在任意页面或文章中添加 `{% butterfly_heatmap %}`。
+    *   **Pug 布局**：在自定义布局文件（如 `updates.pug`）中使用 `!= butterfly_heatmap()`。
+    *   **样式**：自动继承 Butterfly 的 CSS 变量（背景、字体、阴影）和夜间模式设置，无需额外配置。
+
+### Fluid 主题用户（及其他主题）
+
+本插件开箱即支持 [Hexo Fluid](https://github.com/fluid-dev/hexo-theme-fluid) 及其他主题。
 
 1.  **安装**：参考上文安装步骤。
 2.  **配置**：将 `updates_settings` 配置块添加到您的 `_config.fluid.yml`（或站点 `_config.yml`）中。
-3.  **注入**：
+3.  **使用**：
     *   **方案 A (简单)**：新建一个页面（如 `source/updates/index.md`），并在正文中写入 `{% butterfly_heatmap %}`。
     *   **方案 B (自定义布局)**：在自定义布局文件中使用 `<%- butterfly_heatmap() %>` 进行注入。
-
-**关于样式**：插件包含回退样式，对于不使用 Butterfly CSS 变量的主题（如 Fluid），它会自动使用标准的 CSS 样式并适配日间/夜间模式。
+4.  **样式**：插件包含回退样式，对于不使用 Butterfly CSS 变量的主题（如 Fluid），它会自动使用标准的 CSS 样式并适配日间/夜间模式。
 
 ## 颜色主题预览
 

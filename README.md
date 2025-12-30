@@ -64,17 +64,29 @@ If you are customizing the theme layout:
 <%- butterfly_heatmap() %>
 ```
 
-## For Hexo Fluid Users
+## User Guides
 
-This plugin works out-of-the-box with [Hexo Fluid](https://github.com/fluid-dev/hexo-theme-fluid).
+### For Hexo Butterfly Users (Native Support)
+
+This plugin is designed natively for the [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) theme.
+
+1.  **Installation**: Follow the installation steps above.
+2.  **Configuration**: Add the `updates_settings` block to your `_config.butterfly.yml` (or site `_config.yml`).
+3.  **Usage**:
+    *   **In Markdown**: Add `{% butterfly_heatmap %}` to any page or post.
+    *   **In Layout**: Create a custom page layout (e.g. `updates.pug`) and use `!= butterfly_heatmap()`.
+    *   **Styles**: It automatically inherits Butterfly's CSS variables (backgrounds, fonts, shadows) and dark mode settings. No extra CSS configuration needed.
+
+### For Hexo Fluid Users (and other themes)
+
+This plugin also works out-of-the-box with [Hexo Fluid](https://github.com/fluid-dev/hexo-theme-fluid) and other themes.
 
 1.  **Installation**: Follow the installation steps above.
 2.  **Configuration**: Add the `updates_settings` block to your `_config.fluid.yml` (or site `_config.yml`).
-3.  **Injection**:
+3.  **Usage**:
     *   **Option A (Easy)**: Create a new page (e.g., `source/updates/index.md`) and add `{% butterfly_heatmap %}` in the content.
     *   **Option B (Custom Layout)**: Inject it into a custom layout file using `<%- butterfly_heatmap() %>`.
-
-**Note on Styles**: The plugin includes fallback styles for themes that don't use Butterfly's CSS variables. It will automatically adapt to light/dark modes using standard CSS practices.
+4.  **Styles**: The plugin includes fallback styles for themes that don't use Butterfly's CSS variables. It will automatically adapt to light/dark modes using standard CSS practices.
 
 ## Color Schemes
 
