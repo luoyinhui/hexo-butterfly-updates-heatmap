@@ -2,7 +2,7 @@
 
 English | [中文文档](./README_CN.md)
 
-A heatmap plugin specifically designed for the [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) theme. It visualizes your post updates activity (based on `updated` date, fallback to `date`) in a GitHub-style heatmap, with support for historical archives.
+A heatmap plugin originally designed for the [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) theme, but also compatible with **Hexo Fluid** and other Hexo themes. It visualizes your post updates activity (based on `updated` date, fallback to `date`) in a GitHub-style heatmap, with support for historical archives.
 
 ![preview](https://github.com/user-attachments/assets/placeholder)
 
@@ -12,8 +12,9 @@ A heatmap plugin specifically designed for the [Hexo Butterfly](https://github.c
 - **Priority on Updates**: Logic prioritizes `updated` front-matter over `date`, perfect for tracking content maintenance.
 - **Historical Archives**: "Show More" button reveals heatmaps for previous years.
 - **Theme Support**: Built-in support for 6 color schemes (Green, Blue, Pink, Red, Orange, Purple).
-- **Dark Mode**: Fully compatible with Butterfly's dark mode.
+- **Dark Mode**: Fully compatible with Butterfly's dark mode, and supports auto-dark mode for other themes via CSS media query fallback.
 - **Flexible Placement**: Use as a Tag Plugin in Markdown or a Helper in Pug/EJS templates.
+- **Broad Compatibility**: Native support for Butterfly CSS variables, with fallback styles for other themes like Fluid.
 
 ## Installation
 
@@ -41,7 +42,7 @@ updates_settings:
 
 ## Usage
 
-### Method 1: In Markdown Posts/Pages
+### Method 1: In Markdown Posts/Pages (Universal)
 
 You can insert the heatmap in any Markdown file (e.g., `source/about/index.md`) using the tag:
 
@@ -51,11 +52,31 @@ You can insert the heatmap in any Markdown file (e.g., `source/about/index.md`) 
 
 ### Method 2: In Pug/EJS Templates
 
-If you are customizing the theme layout (e.g., creating a custom `updates.pug`), use the helper function:
+If you are customizing the theme layout:
 
+**For Butterfly (Pug):**
 ```pug
 != butterfly_heatmap()
 ```
+
+**For Fluid (EJS):**
+```ejs
+<%- butterfly_heatmap() %>
+```
+
+## For Hexo Fluid Users
+
+This plugin works out-of-the-box with [Hexo Fluid](https://github.com/fluid-dev/hexo-theme-fluid).
+
+1.  **Installation**: Follow the installation steps above.
+2.  **Configuration**: Add the `updates_settings` block to your `_config.fluid.yml` (or site `_config.yml`).
+3.  **Injection**:
+    *   **Option A (Easy)**: Create a new page (e.g., `source/updates/index.md`) and add `{% butterfly_heatmap %}` in the content.
+    *   **Option B (Custom Layout)**: Inject it into a custom layout file using `<%- butterfly_heatmap() %>`.
+
+**Note on Styles**: The plugin includes fallback styles for themes that don't use Butterfly's CSS variables. It will automatically adapt to light/dark modes using standard CSS practices.
+
+## Color Schemes
 
 ## License
 

@@ -2,7 +2,7 @@
 
 [English](./README.md) | 中文文档
 
-这是一个专为 [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) 主题设计的热力图插件。它能像 GitHub 贡献图一样展示您的文章更新频率（优先使用 `updated` 更新时间，无更新时间则回退使用 `date` 创建时间），并支持查看历史年份的存档。
+这是一个专为 [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) 主题设计，但也兼容 **Hexo Fluid** 及其他 Hexo 主题的热力图插件。它能像 GitHub 贡献图一样展示您的文章更新频率（优先使用 `updated` 更新时间，无更新时间则回退使用 `date` 创建时间），并支持查看历史年份的存档。
 
 ![preview](https://github.com/user-attachments/assets/placeholder)
 
@@ -12,8 +12,9 @@
 - **优先识别更新时间**：逻辑优先读取文章的 `updated` 字段，非常适合经常维护和更新旧文的博主。
 - **历史归档支持**：点击“显示更多”按钮即可展开查看过往年份的热力图数据。
 - **多主题色支持**：内置 6 种颜色主题（绿色、蓝色、粉色、红色、橙色、紫色）。
-- **暗黑模式适配**：完美适配 Butterfly 主题的夜间模式。
+- **暗黑模式适配**：完美适配 Butterfly 主题的夜间模式，并为其他主题提供基于 CSS 媒体查询的自动暗黑模式支持。
 - **灵活部署**：既可以在 Markdown 中作为标签插件使用，也可以在 Pug/EJS 模板中作为 Helper 函数调用。
+- **广泛兼容**：原生支持 Butterfly CSS 变量，同时也内置了回退样式以适配 Fluid 等其他主题。
 
 ## 安装方法
 
@@ -39,7 +40,7 @@ updates_settings:
 
 ## 使用方法
 
-### 方法 1：在 Markdown 文章/页面中使用
+### 方法 1：在 Markdown 文章/页面中使用（通用）
 
 您可以在任何 Markdown 文件（例如 `source/about/index.md`）中直接插入标签：
 
@@ -49,11 +50,31 @@ updates_settings:
 
 ### 方法 2：在 Pug/EJS 模板中使用
 
-如果您在自定义主题布局（例如新建了一个 `updates.pug` 页面），可以使用 Helper 函数：
+如果您在自定义主题布局：
 
+**Butterfly 主题 (Pug):**
 ```pug
 != butterfly_heatmap()
 ```
+
+**Fluid 主题 (EJS):**
+```ejs
+<%- butterfly_heatmap() %>
+```
+
+## Hexo Fluid 用户指南
+
+本插件开箱即支持 [Hexo Fluid](https://github.com/fluid-dev/hexo-theme-fluid) 主题。
+
+1.  **安装**：参考上文安装步骤。
+2.  **配置**：将 `updates_settings` 配置块添加到您的 `_config.fluid.yml`（或站点 `_config.yml`）中。
+3.  **注入**：
+    *   **方案 A (简单)**：新建一个页面（如 `source/updates/index.md`），并在正文中写入 `{% butterfly_heatmap %}`。
+    *   **方案 B (自定义布局)**：在自定义布局文件中使用 `<%- butterfly_heatmap() %>` 进行注入。
+
+**关于样式**：插件包含回退样式，对于不使用 Butterfly CSS 变量的主题（如 Fluid），它会自动使用标准的 CSS 样式并适配日间/夜间模式。
+
+## 颜色主题预览
 
 ## 开源协议
 
