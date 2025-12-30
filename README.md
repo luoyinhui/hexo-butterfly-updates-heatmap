@@ -1,5 +1,7 @@
 # hexo-butterfly-updates-heatmap
 
+English | [中文文档](./README_CN.md)
+
 A heatmap plugin specifically designed for the [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) theme. It visualizes your post updates activity (based on `updated` date, fallback to `date`) in a GitHub-style heatmap, with support for historical archives.
 
 ![preview](https://github.com/user-attachments/assets/placeholder)
