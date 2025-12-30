@@ -2,7 +2,7 @@
 
 [English](./README.md) | 中文文档
 
-这是一个专为 [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) 主题设计，但也兼容 **Hexo Fluid** 及其他 Hexo 主题的热力图插件。它能像 GitHub 贡献图一样展示您的文章更新频率（优先使用 `updated` 更新时间，无更新时间则回退使用 `date` 创建时间），并支持查看历史年份的存档。
+这是一个专为 [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) 主题设计，但也兼容 **Hexo Fluid** 及其他 Hexo 主题的热力图插件。它参考 **语雀 (Yuque)** 的热力图风格展示您的文章更新频率（优先使用 `updated` 更新时间，无更新时间则回退使用 `date` 创建时间），并支持查看历史年份的存档。
 
 ![preview](https://github.com/user-attachments/assets/placeholder)
 
