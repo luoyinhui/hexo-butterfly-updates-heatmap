@@ -1,0 +1,108 @@
+//- Heatmap Template
+.updates-heatmap(class=`theme-${colorScheme}`)
+  .heatmap-header
+    .heatmap-title(contenteditable="true")= title
+    .heatmap-legend
+      span.legend-label Less
+      .legend-item
+        .legend-color.level-0
+      .legend-item
+        .legend-color.level-1
+      .legend-item
+        .legend-color.level-2
+      .legend-item
+        .legend-color.level-3
+      .legend-item
+        .legend-color.level-4
+      span.legend-label More
+  .heatmap-container
+    .heatmap-months
+      - var mDate = startDate.clone()
+      - var currentMonth = -1
+      - for (var w = 0; w < 53; w++) {
+        - var m = mDate.month() // 0-11
+        - if (m !== currentMonth && mDate.year() === currentYear) {
+          .heatmap-month-label(style=`grid-column-start: ${w + 1}`)= mDate.format('MMM')
+          - currentMonth = m
+        - }
+        - mDate.add(7, 'days')
+      - }
+      
+    .heatmap-grid
+      - var d = startDate.clone()
+      while d.isSameOrBefore(endDate)
+        - var dStr = d.format('YYYY-MM-DD')
+        - var count = heatmapData[dStr] || 0
+        - var level = count >= 4 ? 4 : count >= 3 ? 3 : count >= 2 ? 2 : count >= 1 ? 1 : 0
+        - var isFuture = d.isAfter(moment())
+        - var tooltip = isFuture ? '' : `${dStr}: ${count} posts`
+        //- Only color if it's current year, otherwise grey (padding days)
+        - var isCurrentYear = d.year() === currentYear
+        - var finalLevel = isCurrentYear ? level : 0
+        //- Hide background for padding days if preferred, or keep them grey
+        .heatmap-day(class=`level-${finalLevel}` title=tooltip style=isCurrentYear ? '' : 'visibility: hidden')
+        - d.add(1, 'days')
+        
+  .year-label= currentYear
+
+//- Toggle Button
+.updates-show-more-btn(onclick="toggleHistory(this)") 显示更多
+
+//- History
+#updates-history(style="display:none")
+  if annualPosts.length > 0
+    each group in annualPosts
+      .updates-heatmap(class=`theme-${colorScheme}`)
+        .heatmap-header
+          .heatmap-title= group.year + ' 年度存档'
+          .heatmap-legend
+            span.legend-label Less
+            .legend-item
+              .legend-color.level-0
+            .legend-item
+              .legend-color.level-1
+            .legend-item
+              .legend-color.level-2
+            .legend-item
+              .legend-color.level-3
+            .legend-item
+              .legend-color.level-4
+            span.legend-label More
+        .heatmap-container
+          //- Logic for past year heatmaps
+          - var pastYear = group.year
+          - var pastStart = moment().year(pastYear).startOf('year')
+          - var pastDayOfWeek = pastStart.day()
+          - var pastStartDate = pastStart.clone().subtract(pastDayOfWeek, 'days')
+          - var pastEndDate = pastStartDate.clone().add(53 * 7 - 1, 'days')
+          - var pastHeatmapData = {}
+          - group.posts.forEach(function(p){
+          -   var dStr = moment(p.updated || p.date).format('YYYY-MM-DD')
+          -   pastHeatmapData[dStr] = (pastHeatmapData[dStr] || 0) + 1
+          - })
+          
+          .heatmap-months
+            - var mDate = pastStartDate.clone()
+            - var currentMonth = -1
+            - for (var w = 0; w < 53; w++) {
+              - var m = mDate.month()
+              - if (m !== currentMonth && mDate.year() === pastYear) {
+                .heatmap-month-label(style=`grid-column-start: ${w + 1}`)= mDate.format('MMM')
+                - currentMonth = m
+              - }
+              - mDate.add(7, 'days')
+            - }
+            
+          .heatmap-grid
+            - var d = pastStartDate.clone()
+            while d.isSameOrBefore(pastEndDate)
+              - var dStr = d.format('YYYY-MM-DD')
+              - var count = pastHeatmapData[dStr] || 0
+              - var level = count >= 4 ? 4 : count >= 3 ? 3 : count >= 2 ? 2 : count >= 1 ? 1 : 0
+              - var isPastYear = d.year() === pastYear
+              - var finalLevel = isPastYear ? level : 0
+              .heatmap-day(class=`level-${finalLevel}` title=`${dStr}: ${count} posts` style=isPastYear ? '' : 'visibility: hidden')
+              - d.add(1, 'days')
+  else
+    .updates-table-container
+      p(style="text-align:center")= emptyHistoryMsg

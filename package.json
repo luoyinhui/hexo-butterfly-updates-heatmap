@@ -1,0 +1,21 @@
+{
+  "name": "hexo-butterfly-updates-heatmap",
+  "version": "1.0.0",
+  "description": "A heatmap plugin for Hexo Butterfly theme",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hexo",
+    "butterfly",
+    "heatmap",
+    "contribution"
+  ],
+  "author": "luoyinhui",
+  "license": "MIT",
+  "dependencies": {
+    "pug": "^3.0.0",
+    "moment": "^2.0.0"
+  }
+}
