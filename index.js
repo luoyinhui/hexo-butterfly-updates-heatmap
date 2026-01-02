@@ -12,6 +12,8 @@ function generateHeatmap(hexo) {
   const title = config.title || '创作指数'
   const colorScheme = config.color_scheme || 'green'
   const emptyHistoryMsg = config.empty_history_msg || '博客还没有满1月呢～～'
+  // Default thresholds: [1, 2, 3, 4] means >=1 is level 1, >=2 is level 2, etc.
+  const thresholds = config.thresholds || [1, 2, 3, 4]
 
   // Prepare Data
   const heatmapData = {}
@@ -56,6 +58,7 @@ function generateHeatmap(hexo) {
     title,
     colorScheme,
     emptyHistoryMsg,
+    thresholds,
     posts,
     heatmapData,
     annualPosts,

@@ -33,7 +33,7 @@
       while d.isSameOrBefore(endDate)
         - var dStr = d.format('YYYY-MM-DD')
         - var count = heatmapData[dStr] || 0
-        - var level = count >= 4 ? 4 : count >= 3 ? 3 : count >= 2 ? 2 : count >= 1 ? 1 : 0
+        - var level = count >= thresholds[3] ? 4 : count >= thresholds[2] ? 3 : count >= thresholds[1] ? 2 : count >= thresholds[0] ? 1 : 0
         - var isFuture = d.isAfter(moment())
         - var tooltip = isFuture ? '' : `${dStr}: ${count} posts`
         //- Only color if it's current year, otherwise grey (padding days)
@@ -98,7 +98,7 @@
             while d.isSameOrBefore(pastEndDate)
               - var dStr = d.format('YYYY-MM-DD')
               - var count = pastHeatmapData[dStr] || 0
-              - var level = count >= 4 ? 4 : count >= 3 ? 3 : count >= 2 ? 2 : count >= 1 ? 1 : 0
+              - var level = count >= thresholds[3] ? 4 : count >= thresholds[2] ? 3 : count >= thresholds[1] ? 2 : count >= thresholds[0] ? 1 : 0
               - var isPastYear = d.year() === pastYear
               - var finalLevel = isPastYear ? level : 0
               .heatmap-day(class=`level-${finalLevel}` title=`${dStr}: ${count} posts` style=isPastYear ? '' : 'visibility: hidden')

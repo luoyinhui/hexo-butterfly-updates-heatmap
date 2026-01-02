@@ -35,9 +35,10 @@ Add the following configuration to your `_config.butterfly.yml` (or `_config.yml
 updates_settings:
   enable: true
   title: 'Contribution Activity'  # Title shown above the heatmap
-  color_scheme: 'green'           # Options: green, blue, red, orange, purple
+  color_scheme: 'green'           # Options: green, blue, pink, red, orange, purple
   limit_months: 3                 # (Optional) Logic for your own timeline if needed
   empty_history_msg: 'No history yet!' # Message shown when no past years exist
+  thresholds: [1, 2, 3, 4]        # (Optional) Count for each level. [1, 2, 3, 4] means >=1 is Lv1, >=2 is Lv2...
 ```
 
 ## Usage
