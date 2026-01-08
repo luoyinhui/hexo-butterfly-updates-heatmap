@@ -18,14 +18,24 @@ A heatmap plugin originally designed for the [Hexo Butterfly](https://github.com
 
 ## Installation
 
-1.  Download this repository.
-2.  Place the `hexo-butterfly-updates-heatmap` folder into your Hexo blog's `node_modules` directory, OR install it from a local path:
+1. Download the Repository (Two ways)
 
+* Via Command Line:
+```bash
+git clone https://github.com/luoyinhui/hexo-butterfly-updates-heatmap.git
+```
+* Via Releases:
+Download the source code or asset package directly from the Releases page.
+
+1. Installation (Two ways)
+
+- Manual Installation:
+Move the `hexo-butterfly-updates-heatmap` folder into the `node_modules` directory of your Hexo blog root.
+- Local Path Installation:
+Place the folder in your blog's root directory and run:
 ```bash
 npm install ./hexo-butterfly-updates-heatmap
 ```
-
-*(Assuming you place the folder in your blog root)*
 
 ## Configuration
 

@@ -18,9 +18,15 @@
 
 ## 安装方法
 
-1.  下载本仓库代码。
-2.  将 `hexo-butterfly-updates-heatmap` 文件夹放入您的 Hexo 博客根目录的 `node_modules` 文件夹中，或者放在根目录下并通过本地路径安装：
-
+1.  下载本仓库代码（两种方式）
+- 命令行下载：
+```bash
+git clone https://github.com/luoyinhui/hexo-butterfly-updates-heatmap.git
+```
+- release下载
+2.  安装（两种方式）
+1）将 `hexo-butterfly-updates-heatmap` 文件夹放入您的 Hexo 博客根目录的 `node_modules` 文件夹中
+2）放在根目录下并通过本地路径安装：
 ```bash
 npm install ./hexo-butterfly-updates-heatmap
 ```
@@ -35,7 +41,7 @@ updates_settings:
   title: '创作指数'       # 热力图左上角显示的标题
   color_scheme: 'green'   # 主题色可选: green, blue, pink, red, orange, purple
   limit_months: 3         # (可选) 用于配合您自己的时间轴逻辑，本插件主要使用前两项
-  empty_history_msg: '博客还没有满1月呢～～' # 当没有跨年历史数据时显示的提示语
+  empty_history_msg: '博客还没有满1岁呢～～' # 当没有跨年历史数据时显示的提示语
   thresholds: [1, 2, 3, 4] # (可选) 颜色分级阈值。例如 [1, 2, 3, 4] 代表 >=1篇为Lv1, >=2篇为Lv2...
 ```
 
