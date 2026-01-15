@@ -95,6 +95,10 @@ If you are upgrading from V1 (which relied on `updated` fields), follow these st
     > **Note on `updated` field**:
     > `updated` is not a mandatory Hexo field. If your posts lack it, the script will automatically fallback to the `date` (creation time) to initialize the history. Thus, the migration works seamlessly regardless of your previous field usage.
 
+    > **⚠️ Important: Potential Partial Data Loss**
+    > Heatmap counts might be partially lost during migration if you don't have a backup of previous history data, as it will be reconstructed from current file timestamps. 
+    > **However, V1.0.0 has a known critical risk of data loss (cause currently unknown), so upgrading to V2 immediately is strongly recommended to secure future history.**
+
 4.  **Update Page**: Modify your updates page Markdown to use the new tag (`{% butterfly_timeline %}`) instead of the theme's default list.
 
 ## File Structure
