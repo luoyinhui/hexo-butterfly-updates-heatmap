@@ -1,0 +1,5 @@
+lib/history_data.json
+lib/history_timeline.json
+lib/last_run.json
+node_modules/
+.DS_Store

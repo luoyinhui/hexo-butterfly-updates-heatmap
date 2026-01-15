@@ -93,6 +93,13 @@ If you are upgrading from V1 (which relied on `updated` fields), follow these st
 *   `lib/history_timeline.json`: Stores detailed article history (Titles, Links, Dates). **Do not delete.**
 *   `lib/last_run.json`: Tracks the last execution date for snapshotting.
 
+## Important Note
+
+This plugin stores history data in `lib/*.json`.
+*   If you clone from GitHub, these files are ignored by default (clean).
+*   **If you downloaded a zip package that includes `lib/history_*.json`**: Please **DELETE all JSON files in the `lib/` directory** before use. Otherwise, you will inherit the author's update history.
+*   The plugin will automatically generate fresh JSON files on its first run.
+
 ## License
 
 MIT
