@@ -1,103 +1,97 @@
-# hexo-butterfly-updates-heatmap
+# hexo-butterfly-updates-heatmap (V2)
 
-English | [中文文档](./README_CN.md)
+[中文文档](./README_CN.md)
 
-A heatmap plugin originally designed for the [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) theme, but also compatible with **Hexo Fluid** and other Hexo themes. It visualizes your post updates activity (based on `updated` date, fallback to `date`) in a heatmap style inspired by **Yuque (语雀)**, with support for historical archives.
+A Hexo plugin designed for the [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) theme (also compatible with **Hexo Fluid** and others) that provides an **Enhanced Heatmap and Persistent Timeline**.
+
+**Major Update (V2)**: Introduces **Persistent History**.
+It no longer relies solely on the `updated` front-matter field in Markdown files. Instead, it permanently snapshots daily update records (counts and article lists) into JSON files. Your history is preserved even if you modify article files later.
 
 ![preview](assets/preview.png)
 
-## Features
+## V2 Key Features
 
-- **Activity Heatmap**: Displays daily post update frequency.
-- **Priority on Updates**: Logic prioritizes `updated` front-matter over `date`, perfect for tracking content maintenance.
-- **Historical Archives**: "Show More" button reveals heatmaps for previous years.
-- **Theme Support**: Built-in support for 6 color schemes (Green, Blue, Pink, Red, Orange, Purple).
-- **Dark Mode**: Fully compatible with Butterfly's dark mode, and supports auto-dark mode for other themes via CSS media query fallback.
-- **Flexible Placement**: Use as a Tag Plugin in Markdown or a Helper in Pug/EJS templates.
-- **Broad Compatibility**: Native support for Butterfly CSS variables, with fallback styles for other themes like Fluid.
+1.  **Persistent Heatmap**: Automatically records daily update counts to generate a GitHub-style contribution graph.
+2.  **Persistent Timeline**: Replaces the theme's default volatile timeline with a **permanently fixed** history list.
+3.  **Daily Snapshots**: Automatically archives "yesterday's" updates (titles, links) into history files on the first run of each new day.
+4.  **Seamless Migration**: Supports smooth transition from V1 (dependent on `updated` fields) to V2 (JSON-based history).
 
 ## Installation
 
-1. Download the Repository (Two ways)
-
-* Via Command Line:
-```bash
-git clone https://github.com/luoyinhui/hexo-butterfly-updates-heatmap.git
-```
-* Via Releases:
-Download the source code or asset package directly from the Releases page.
-
-1. Installation (Two ways)
-
-- Manual Installation:
-Move the `hexo-butterfly-updates-heatmap` folder into the `node_modules` directory of your Hexo blog root.
-- Local Path Installation:
-Place the folder in your blog's root directory and run:
-```bash
-npm install ./hexo-butterfly-updates-heatmap
-```
+1.  Download the code (Two methods):
+    -   **Method 1**: Download ZIP, extract, and place the `hexo-butterfly-updates-heatmap` folder in your blog root (next to `source`, `themes`).
+    -   **Method 2**: Clone into root:
+        ```bash
+        git clone https://github.com/luoyinhui/hexo-butterfly-updates-heatmap.git
+        ```
+2.  Install dependencies:
+    ```bash
+    npm install moment
+    ```
 
 ## Configuration
 
-Add the following configuration to your `_config.butterfly.yml` (or `_config.yml`):
+Add the following to your `_config.butterfly.yml` (or site `_config.yml`):
 
 ```yaml
 updates_settings:
   enable: true
-  title: 'Contribution Activity'  # Title shown above the heatmap
-  color_scheme: 'green'           # Options: green, blue, pink, red, orange, purple
-  limit_months: 3                 # (Optional) Logic for your own timeline if needed
-  empty_history_msg: 'No history yet!' # Message shown when no past years exist
-  thresholds: [1, 2, 3, 4]        # (Optional) Count for each level. [1, 2, 3, 4] means >=1 is Lv1, >=2 is Lv2...
+  title: 'Contribution'   # Title for heatmap
+  color_scheme: 'green'   # Theme colors: green, blue, pink, red, orange, purple
+  empty_history_msg: 'No history yet.' # Message when no past year data exists
+  thresholds: [1, 2, 3, 4] # (Optional) Color levels. e.g. >=1 is Lv1...
 ```
 
 ## Usage
 
-### Method 1: In Markdown Posts/Pages (Universal)
-
-You can insert the heatmap in any Markdown file (e.g., `source/about/index.md`) using the tag:
-
+### 1. Render Heatmap
+In any Markdown file (recommended: `source/updates/index.md`), insert:
 ```markdown
 {% butterfly_heatmap %}
 ```
 
-### Method 2: In Pug/EJS Templates
-
-If you are customizing the theme layout:
-
-**For Butterfly (Pug):**
-```pug
-!= butterfly_heatmap()
+### 2. Render Timeline
+In the same file, insert this tag to display the persistent history list:
+```markdown
+{% butterfly_timeline %}
 ```
 
-**For Fluid (EJS):**
-```ejs
-<%- butterfly_heatmap() %>
+**Recommended Page Structure (`source/updates/index.md`)**:
+```markdown
+---
+title: Updates
+date: 2025-12-09 00:00:00
+type: updates
+layout: page
+---
+
+{% butterfly_heatmap %}
+{% butterfly_timeline %}
 ```
 
-## User Guides
+## Migration Guide (V1 -> V2)
 
-### For Hexo Butterfly Users (Native Support)
+If you are upgrading from V1 (which relied on `updated` fields), follow these steps to secure your history:
 
-This plugin is designed natively for the [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) theme.
+1.  **Backup**: Backup your blog source files.
+2.  **Replace**: Overwrite the old plugin folder with the new one.
+3.  **Run Migration Tool**:
+    Open a terminal in your blog root and run:
+    ```bash
+    node hexo-butterfly-updates-heatmap/scripts/migrate_v1_to_v2.js
+    ```
+    **What this does**:
+    *   Scans all posts and extracts existing `updated` timestamps.
+    *   Saves these records into `lib/history_timeline.json` for permanent storage.
+    *   (Optional) You can configure the script to remove `updated` fields from MD files (default is false for safety).
 
-1.  **Installation**: Follow the installation steps above.
-2.  **Configuration**: Add the `updates_settings` block to your `_config.butterfly.yml` (or site `_config.yml`).
-3.  **Usage**:
-    *   **In Markdown**: Add `{% butterfly_heatmap %}` to any page or post.
-    *   **In Layout**: Create a custom page layout (e.g. `updates.pug`) and use `!= butterfly_heatmap()`.
-    *   **Styles**: It automatically inherits Butterfly's CSS variables (backgrounds, fonts, shadows) and dark mode settings. No extra CSS configuration needed.
+4.  **Update Page**: Modify your updates page Markdown to use the new tag (`{% butterfly_timeline %}`) instead of the theme's default list.
 
-### For Hexo Fluid Users (and other themes)
-
-This plugin also works out-of-the-box with [Hexo Fluid](https://github.com/fluid-dev/hexo-theme-fluid) and other themes.
-
-1.  **Installation**: Follow the installation steps above.
-2.  **Configuration**: Add the `updates_settings` block to your `_config.fluid.yml` (or site `_config.yml`).
-3.  **Usage**:
-    *   **Option A (Easy)**: Create a new page (e.g., `source/updates/index.md`) and add `{% butterfly_heatmap %}` in the content.
-    *   **Option B (Custom Layout)**: Inject it into a custom layout file using `<%- butterfly_heatmap() %>`.
-4.  **Styles**: The plugin includes fallback styles for themes that don't use Butterfly's CSS variables. It will automatically adapt to light/dark modes using standard CSS practices.
+## File Structure
+*   `index.js`: Core logic.
+*   `lib/history_data.json`: Stores daily update counts (Heatmap data).
+*   `lib/history_timeline.json`: Stores detailed article history (Titles, Links, Dates). **Do not delete.**
+*   `lib/last_run.json`: Tracks the last execution date for snapshotting.
 
 ## License
 

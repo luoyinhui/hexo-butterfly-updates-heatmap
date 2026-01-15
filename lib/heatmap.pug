@@ -76,10 +76,36 @@
           - var pastStartDate = pastStart.clone().subtract(pastDayOfWeek, 'days')
           - var pastEndDate = pastStartDate.clone().add(53 * 7 - 1, 'days')
           - var pastHeatmapData = {}
-          - group.posts.forEach(function(p){
-          -   var dStr = moment(p.updated || p.date).format('YYYY-MM-DD')
-          -   pastHeatmapData[dStr] = (pastHeatmapData[dStr] || 0) + 1
-          - })
+          //- Use historyData if available for this year
+          - if (historyData) {
+          -   Object.keys(historyData).forEach(function(d){
+          -      if (d.startsWith(pastYear)) {
+          -          pastHeatmapData[d] = historyData[d]
+          -      }
+          -   })
+          - }
+          //- Only use post data if NO history data for this year found? 
+          //- OR merge? User said "only retain heatmap... other data not retained".
+          //- So if we have history data, we should prefer it.
+          //- But history data from search.json covers 2025.
+          //- If we rely on historyData, we might miss posts that are NOT in search.json?
+          //- But search.json has 86 items.
+          //- Let's merge: if historyData has key, use it. If not, maybe use post data?
+          //- Actually, for past years (2025), user said "go to repo". Search.json IS repo data.
+          //- So for 2025, historyData is the source of truth.
+          //- If we add post.updated, we might double count if post is also in historyData?
+          //- But we don't iterate posts here if we trust historyData.
+          //- Wait, the loop `group.posts.forEach` calculates `pastHeatmapData`.
+          //- We should overwrite it or merge it.
+          //- Since MD files might have wrong dates (today), we should IGNORE MD files for past years if history exists.
+          
+          - var hasHistory = Object.keys(pastHeatmapData).length > 0
+          - if (!hasHistory) {
+             - group.posts.forEach(function(p){
+             -   var dStr = moment(p.updated || p.date).format('YYYY-MM-DD')
+             -   pastHeatmapData[dStr] = (pastHeatmapData[dStr] || 0) + 1
+             - })
+          - }
           
           .heatmap-months
             - var mDate = pastStartDate.clone()

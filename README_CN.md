@@ -1,35 +1,33 @@
-# hexo-butterfly-updates-heatmap
+# hexo-butterfly-updates-heatmap (V2)
 
 [English](./README.md) | 中文文档
 
-这是一个专为 [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) 主题设计，但也兼容 **Hexo Fluid** 及其他 Hexo 主题的热力图插件。它参考 **语雀 (Yuque)** 的热力图风格展示您的文章更新频率（优先使用 `updated` 更新时间，无更新时间则回退使用 `date` 创建时间），并支持查看历史年份的存档。
+这是一个专为 [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) 主题设计（也兼容 **Hexo Fluid** 及其他主题）的**增强型热力图与时间轴插件**。
+
+**V2 版本重大更新**：引入了**持久化历史记录**机制。
+不再依赖 Markdown 文件中的 `updated` 字段，而是将每日的更新记录（数量与文章列表）永久固化在 JSON 文件中。即使您修改了文章文件，历史记录也永远不会丢失或被覆盖。
 
 ![preview](assets/preview.png)
 
-## 功能特点
+## V2 核心功能
 
-- **更新活跃度热力图**：直观展示每日的博客更新动态。
-- **优先识别更新时间**：逻辑优先读取文章的 `updated` 字段，非常适合经常维护和更新旧文的博主。
-- **历史归档支持**：点击“显示更多”按钮即可展开查看过往年份的热力图数据。
-- **多主题色支持**：内置 6 种颜色主题（绿色、蓝色、粉色、红色、橙色、紫色）。
-- **暗黑模式适配**：完美适配 Butterfly 主题的夜间模式，并为其他主题提供基于 CSS 媒体查询的自动暗黑模式支持。
-- **灵活部署**：既可以在 Markdown 中作为标签插件使用，也可以在 Pug/EJS 模板中作为 Helper 函数调用。
-- **广泛兼容**：原生支持 Butterfly CSS 变量，同时也内置了回退样式以适配 Fluid 等其他主题。
+1.  **持久化热力图**：自动记录每日更新数量，生成 GitHub 风格的贡献热力图。
+2.  **永久时间轴**：替代主题自带的不稳定时间轴，提供一个**永久固化**的更新历史列表。
+3.  **每日快照**：插件会在每天第一次运行时，自动将“昨天”的更新情况（文章标题、链接）存档到历史文件。
+4.  **无感迁移**：支持从旧版（依赖 `updated` 字段）平滑过渡到新版（依赖 JSON 历史库）。
 
 ## 安装方法
 
 1.  下载本仓库代码（两种方式）
-- 命令行下载：
-```bash
-git clone https://github.com/luoyinhui/hexo-butterfly-updates-heatmap.git
-```
-- release下载
-2.  安装（两种方式）
-1）将 `hexo-butterfly-updates-heatmap` 文件夹放入您的 Hexo 博客根目录的 `node_modules` 文件夹中
-2）放在根目录下并通过本地路径安装：
-```bash
-npm install ./hexo-butterfly-updates-heatmap
-```
+    -   **方式一**：下载 ZIP 包解压，将 `hexo-butterfly-updates-heatmap` 文件夹放入您的博客根目录（与 `source`, `themes` 同级）。
+    -   **方式二**：在博客根目录下运行：
+        ```bash
+        git clone https://github.com/luoyinhui/hexo-butterfly-updates-heatmap.git
+        ```
+2.  安装依赖：
+    ```bash
+    npm install moment
+    ```
 
 ## 配置说明
 
@@ -40,58 +38,60 @@ updates_settings:
   enable: true
   title: '创作指数'       # 热力图左上角显示的标题
   color_scheme: 'green'   # 主题色可选: green, blue, pink, red, orange, purple
-  limit_months: 3         # (可选) 用于配合您自己的时间轴逻辑，本插件主要使用前两项
   empty_history_msg: '博客还没有满1岁呢～～' # 当没有跨年历史数据时显示的提示语
-  thresholds: [1, 2, 3, 4] # (可选) 颜色分级阈值。例如 [1, 2, 3, 4] 代表 >=1篇为Lv1, >=2篇为Lv2...
+  thresholds: [1, 2, 3, 4] # (可选) 颜色分级阈值。例如 [1, 2, 3, 4] 代表 >=1篇为Lv1...
 ```
 
 ## 使用方法
 
-### 方法 1：在 Markdown 文章/页面中使用（通用）
-
-您可以在任何 Markdown 文件（例如 `source/about/index.md`）中直接插入标签：
-
+### 1. 渲染热力图
+在任意 Markdown 文章（推荐新建 `source/updates/index.md`）中，插入：
 ```markdown
 {% butterfly_heatmap %}
 ```
 
-### 方法 2：在 Pug/EJS 模板中使用
-
-如果您在自定义主题布局：
-
-**Butterfly 主题 (Pug):**
-```pug
-!= butterfly_heatmap()
+### 2. 渲染更新时间轴
+在同一文件中，插入以下标签即可显示永久固化的历史更新列表：
+```markdown
+{% butterfly_timeline %}
 ```
 
-**Fluid 主题 (EJS):**
-```ejs
-<%- butterfly_heatmap() %>
+**推荐的页面结构 (`source/updates/index.md`)**：
+```markdown
+---
+title: 更新
+date: 2025-12-09 00:00:00
+type: updates
+layout: page
+---
+
+{% butterfly_heatmap %}
+{% butterfly_timeline %}
 ```
 
-## 用户指南
+## 迁移指南 (从 V1 过渡到 V2)
 
-### Butterfly 主题用户（原生支持）
+如果您之前使用旧版插件（依赖 Markdown 文件的 `updated` 字段），请按照以下步骤升级，以获得数据持久化保护：
 
-本插件专为 [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) 主题原生设计。
+1.  **备份**：请先备份您的博客源文件。
+2.  **替换文件**：用新版插件文件夹替换旧版。
+3.  **运行迁移工具**：
+    在博客根目录下打开终端，运行：
+    ```bash
+    node hexo-butterfly-updates-heatmap/scripts/migrate_v1_to_v2.js
+    ```
+    **脚本作用**：
+    *   扫描所有文章，提取现有的 `updated` 时间。
+    *   将这些历史记录写入 `lib/history_timeline.json` 永久保存。
+    *   (可选) 您可以在脚本中配置是否自动删除 Markdown 文件中的 `updated` 字段（默认不删除，手动管理更安全）。
 
-1.  **安装**：参考上文安装步骤。
-2.  **配置**：将 `updates_settings` 配置块添加到您的 `_config.butterfly.yml`（或站点 `_config.yml`）中。
-3.  **使用**：
-    *   **Markdown**：在任意页面或文章中添加 `{% butterfly_heatmap %}`。
-    *   **Pug 布局**：在自定义布局文件（如 `updates.pug`）中使用 `!= butterfly_heatmap()`。
-    *   **样式**：自动继承 Butterfly 的 CSS 变量（背景、字体、阴影）和夜间模式设置，无需额外配置。
+4.  **更新页面**：修改您的更新页 Markdown，使用上述的新标签 (`{% butterfly_timeline %}`) 替换原来的主题自带列表。
 
-### Fluid 主题用户（及其他主题）
-
-本插件开箱即支持 [Hexo Fluid](https://github.com/fluid-dev/hexo-theme-fluid) 及其他主题。
-
-1.  **安装**：参考上文安装步骤。
-2.  **配置**：将 `updates_settings` 配置块添加到您的 `_config.fluid.yml`（或站点 `_config.yml`）中。
-3.  **使用**：
-    *   **方案 A (简单)**：新建一个页面（如 `source/updates/index.md`），并在正文中写入 `{% butterfly_heatmap %}`。
-    *   **方案 B (自定义布局)**：在自定义布局文件中使用 `<%- butterfly_heatmap() %>` 进行注入。
-4.  **样式**：插件包含回退样式，对于不使用 Butterfly CSS 变量的主题（如 Fluid），它会自动使用标准的 CSS 样式并适配日间/夜间模式。
+## 文件结构说明
+*   `index.js`: 插件核心逻辑。
+*   `lib/history_data.json`: 存储热力图的每日计数（只存数量）。
+*   `lib/history_timeline.json`: 存储每日更新的文章详情（标题、链接、日期）。**这是您的核心资产，请勿误删。**
+*   `lib/last_run.json`: 记录最后一次运行日期，用于触发每日快照。
 
 ## 开源协议
 
