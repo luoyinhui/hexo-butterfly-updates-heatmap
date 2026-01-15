@@ -81,9 +81,9 @@ layout: page
     node hexo-butterfly-updates-heatmap/scripts/migrate_v1_to_v2.js
     ```
     **脚本作用**：
-    *   扫描所有文章，提取现有的 `updated` 时间。
-    *   将这些历史记录写入 `lib/history_timeline.json` 永久保存。
-    *   (可选) 您可以在脚本中配置是否自动删除 Markdown 文件中的 `updated` 字段（默认不删除，手动管理更安全）。
+    *   **热力图迁移**：如果新插件目录中包含您旧版的 `lib/history_data.json`，脚本会保留它。如果缺失，脚本会根据您现有的文章（updated/date）自动重建热力图数据。
+    *   **时间轴迁移**：扫描所有文章，提取时间戳生成永久的 `lib/history_timeline.json`。
+    *   (可选) 可以在脚本中配置 `REMOVE_UPDATED_FIELD = true` 来自动清理 MD 文件（默认关闭）。
 
 4.  **更新页面**：修改您的更新页 Markdown，使用上述的新标签 (`{% butterfly_timeline %}`) 替换原来的主题自带列表。
 
@@ -97,8 +97,10 @@ layout: page
 
 本插件会将历史数据存储在 `lib/` 目录下的 JSON 文件中。
 *   如果您是直接从 GitHub 克隆本仓库，该目录默认是干净的。
-*   **如果您是下载了作者或其他人的完整插件包（包含 `lib/history_*.json`）**：请在使用前**删除 `lib/` 目录下的所有 JSON 文件**，否则您会继承别人的更新历史记录。
-*   插件在第一次运行时会自动生成新的空白 JSON 文件，开始记录您的专属历史。
+*   **如果您是下载了作者或其他人的完整插件包（包含 `lib/history_*.json`）**：
+    *   请在使用前**删除 `lib/` 目录下的所有 JSON 文件**，否则您会继承别人的更新历史记录。
+    *   删除后，运行上述的迁移脚本，即可为您生成属于您自己的历史记录。
+*   插件在第一次运行时会自动生成新的空白 JSON 文件，开始记录您的专属历史.
 
 ## 开源协议
 

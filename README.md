@@ -81,8 +81,8 @@ If you are upgrading from V1 (which relied on `updated` fields), follow these st
     node hexo-butterfly-updates-heatmap/scripts/migrate_v1_to_v2.js
     ```
     **What this does**:
-    *   Scans all posts and extracts existing `updated` timestamps.
-    *   Saves these records into `lib/history_timeline.json` for permanent storage.
+    *   **Heatmap Migration**: It preserves your old `lib/history_data.json` if present. If missing, it reconstructs heatmap counts from your existing articles (updated/date).
+    *   **Timeline Migration**: Scans all posts and extracts timestamps to create the persistent `lib/history_timeline.json`.
     *   (Optional) You can configure the script to remove `updated` fields from MD files (default is false for safety).
 
 4.  **Update Page**: Modify your updates page Markdown to use the new tag (`{% butterfly_timeline %}`) instead of the theme's default list.
@@ -97,7 +97,9 @@ If you are upgrading from V1 (which relied on `updated` fields), follow these st
 
 This plugin stores history data in `lib/*.json`.
 *   If you clone from GitHub, these files are ignored by default (clean).
-*   **If you downloaded a zip package that includes `lib/history_*.json`**: Please **DELETE all JSON files in the `lib/` directory** before use. Otherwise, you will inherit the author's update history.
+*   **If you downloaded a zip package that includes `lib/history_*.json`**: 
+    *   Please **DELETE all JSON files in the `lib/` directory** before use. Otherwise, you will inherit the author's update history.
+    *   After deleting, run the migration script mentioned above to generate your own history.
 *   The plugin will automatically generate fresh JSON files on its first run.
 
 ## License

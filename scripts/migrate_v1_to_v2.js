@@ -98,14 +98,14 @@ function processFiles() {
         }
 
         // Determine the "History Date"
-        // If `updated` exists, use it. If not, maybe use `date`.
-        // For migration, we mainly care about capturing existing `updated` fields before we delete them.
+        // Priority:
+        // 1. `updated` front-matter (if exists)
+        // 2. `date` front-matter (fallback)
         let historyDateStr = null;
         if (updated) {
             historyDateStr = updated;
         } else if (date) {
-            // Optional: You can choose to index 'created' dates as updates too, but usually not.
-            // historyDateStr = date; 
+            historyDateStr = date; 
         }
 
         if (historyDateStr) {
@@ -140,6 +140,16 @@ function processFiles() {
                 });
                 processedCount++;
             }
+
+            // 2. Add/Merge to Heatmap JSON (Regenerate logic)
+            // If the user didn't have a history_data.json, we reconstruct it from these dates.
+            // If they DID have one, we trust the file (loaded above), but we can ensure this date exists.
+            // Note: We only increment if we are sure? No, better to just set it if missing.
+            // Actually, for safety, if we are scanning files, we should ensure the count in heatmap is at least what we see.
+            
+            const currentCount = heatmapData[dateKey] || 0;
+            // We can't know the exact count just by one file, but we can count files per day in this loop.
+            // Let's do a post-processing step for heatmap.
         }
 
         // 2. Remove `updated` field from file (if configured)
@@ -153,18 +163,35 @@ function processFiles() {
         }
     });
 
+    // Re-calculate heatmap counts from the timeline data we just built/loaded
+    // This ensures that even if history_data.json was missing, it is regenerated from the timeline.
+    console.log('Syncing Heatmap Data...');
+    Object.keys(timelineData).forEach(dateKey => {
+        const count = timelineData[dateKey].length;
+        // We use Math.max to respect existing history if it was higher (e.g. deleted posts)
+        const existingCount = heatmapData[dateKey] || 0;
+        heatmapData[dateKey] = Math.max(count, existingCount);
+    });
+
     // Save Timeline JSON
     const sortedTimeline = {};
     Object.keys(timelineData).sort().reverse().forEach(key => {
         sortedTimeline[key] = timelineData[key];
     });
     fs.writeFileSync(TIMELINE_FILE, JSON.stringify(sortedTimeline, null, 2));
+
+    // Save Heatmap JSON
+    const sortedHeatmap = {};
+    Object.keys(heatmapData).sort().reverse().forEach(key => {
+        sortedHeatmap[key] = heatmapData[key];
+    });
+    fs.writeFileSync(HEATMAP_FILE, JSON.stringify(sortedHeatmap, null, 2));
     
     console.log('------------------------------------------------');
     console.log(`Migration Complete.`);
-    console.log(`- Timeline Entries Added: ${processedCount}`);
+    console.log(`- Timeline Entries Processed: ${processedCount}`);
     console.log(`- Files Cleaned (updated removed): ${modifiedCount}`);
-    console.log(`- History File: ${TIMELINE_FILE}`);
+    console.log(`- History Files Updated: ${TIMELINE_FILE}, ${HEATMAP_FILE}`);
     console.log('------------------------------------------------');
     console.log('Next Steps:');
     console.log('1. Add "updates_settings" to your _config.butterfly.yml');
