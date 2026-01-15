@@ -16,6 +16,13 @@ It no longer relies solely on the `updated` front-matter field in Markdown files
 3.  **Daily Snapshots**: Automatically archives "yesterday's" updates (titles, links) into history files on the first run of each new day.
 4.  **Seamless Migration**: Supports smooth transition from V1 (dependent on `updated` fields) to V2 (JSON-based history).
 
+## Prerequisites
+
+1.  **Hexo Blog Framework**
+2.  **hexo-abbrlink Plugin** (**Required**): The "Persistent Timeline" feature relies on the `abbrlink` field to generate stable article links. If your posts lack `abbrlink`, the migration script will skip them.
+    *   Install: `npm install hexo-abbrlink --save`
+    *   Config: Ensure abbrlink is enabled in your `_config.yml`.
+
 ## Installation
 
 1.  Download the code (Two methods):
@@ -84,6 +91,9 @@ If you are upgrading from V1 (which relied on `updated` fields), follow these st
     *   **Heatmap Migration**: It preserves your old `lib/history_data.json` if present. If missing, it reconstructs heatmap counts from your existing articles (updated/date).
     *   **Timeline Migration**: Scans all posts and extracts timestamps to create the persistent `lib/history_timeline.json`.
     *   (Optional) You can configure the script to remove `updated` fields from MD files (default is false for safety).
+
+    > **Note on `updated` field**:
+    > `updated` is not a mandatory Hexo field. If your posts lack it, the script will automatically fallback to the `date` (creation time) to initialize the history. Thus, the migration works seamlessly regardless of your previous field usage.
 
 4.  **Update Page**: Modify your updates page Markdown to use the new tag (`{% butterfly_timeline %}`) instead of the theme's default list.
 
