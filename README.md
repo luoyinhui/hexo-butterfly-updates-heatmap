@@ -2,6 +2,10 @@
 
 [中文文档](./README_CN.md)
 
+> **⚠️ Beta / Testing Status**
+> This V2 update introduces significant architectural changes (Persistent History). While it has been tested by the author, **it has not yet been widely verified by the community**.
+> Please **backup your blog data** before upgrading and use with caution. If you encounter any issues, please submit an Issue.
+
 A Hexo plugin designed for the [Hexo Butterfly](https://github.com/jenrey/hexo-theme-butterfly) theme (also compatible with **Hexo Fluid** and others) that provides an **Enhanced Heatmap and Persistent Timeline**.
 
 **Major Update (V2)**: Introduces **Persistent History**.
